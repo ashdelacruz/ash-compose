@@ -16,7 +16,8 @@ services:
   spring:
     depends_on:
       - mongodb
-    build: ../springboot-auth-service
+    # build: ../springboot-auth-service
+    image: edelacr1/ash-spring:latest
     container_name: ac-spring
     # environment:
     #   SPRING_APPLICATION_JSON: '{
@@ -31,8 +32,9 @@ services:
     stdin_open: true
     tty: true
   ng:
-    build: 
-      context: ../PersonalSite2.0/ash-dela-cruz
+    # build: 
+    #   context: ../PersonalSite2.0/ash-dela-cruz
+    image: edelacr1/ash-ng:latest
     container_name: ac-ng
     ports:
       - $NG_LOCAL_PORT:$NG_DOCKER_PORT
