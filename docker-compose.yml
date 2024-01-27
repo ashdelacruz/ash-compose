@@ -1,0 +1,45 @@
+
+version: "3.8"
+services:
+  mongodb:
+    image: mongo:6.0.12
+    container_name: ac-mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGODB_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
+    env_file: ./.env
+    ports:
+      - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
+    restart: unless-stopped
+    volumes:
+      - db:/data/db
+  spring:
+    depends_on:
+      - mongodb
+    # build: ../springboot-auth-service
+    image: edelacr1/ash-spring:latest
+    container_name: ac-spring
+    # environment:
+    #   SPRING_APPLICATION_JSON: '{
+    #       "spring.data.mongodb.uri" : "mongodb+srv://$MONGODB_USERNAME:$MONGODB_PASSWORD@cluster95314.rtpsl7b.mongodb.net/"
+    #     }'
+    env_file: ./.env
+    ports:
+      - $SPRING_MAIL_LOCAL_PORT:$SPRING_MAIL_DOCKER_PORT
+    restart: on-failure
+    volumes:
+      - .m2:/root/.m2
+    stdin_open: true
+    tty: true
+  ng:
+    # build: 
+    #   context: ../PersonalSite2.0/ash-dela-cruz
+    image: edelacr1/ash-ng:latest
+    container_name: ac-ng
+    ports:
+      - $NG_LOCAL_PORT:$NG_DOCKER_PORT
+    depends_on:
+      - spring
+
+volumes:
+  db:
