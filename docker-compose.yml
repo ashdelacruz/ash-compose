@@ -2,7 +2,7 @@
 version: "3.8"
 services:
   mongodb:
-    image: mongo:6.0.12
+    image: mongo:latest
     container_name: ac-mongo
     environment:
       - MONGO_INITDB_ROOT_USERNAME=$MONGODB_USERNAME
@@ -37,9 +37,13 @@ services:
     container_name: ac-ng
     ports:
       - $NG_LOCAL_PORT:$NG_DOCKER_PORT
+      - $SSL_LOCAL_PORT:$SSL_DOCKER_PORT
     depends_on:
       - spring
     restart: on-failure
+    volumes:    
+      - /nfs/ashpi/nginx/www/:/var/www/
+      - /etc/letsencrypt:/etc/letsencrypt
 
 volumes:
   db:
