@@ -28,7 +28,7 @@ services:
     stdin_open: true
     tty: true
   ng:
-    # build: ../PersonalSite2.0/ash-dela-cruz
+    # build: ../ash-ng
     image: edelacr1/ash-ng:latest
     container_name: ac-ng
     ports:
