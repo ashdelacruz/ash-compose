@@ -17,7 +17,7 @@ services:
     depends_on:
       - mongodb
     # build: ../ash-spring
-    image: edelacr1/ash-spring:prod
+    image: edelacr1/ash-spring:latest
     container_name: ac-spring
     # environment:
     #   SPRING_APPLICATION_JSON: '{
@@ -33,7 +33,7 @@ services:
     tty: true
   ng:
     # build: ../PersonalSite2.0/ash-dela-cruz
-    image: edelacr1/ash-ng:prod
+    image: edelacr1/ash-ng:latest
     container_name: ac-ng
     ports:
       - $NG_LOCAL_PORT:$NG_DOCKER_PORT
