@@ -1,24 +1,12 @@
 
 version: "3.8"
 services:
-  mongodb:
-    image: mongo:latest
-    container_name: ac-mongo
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=$MONGODB_USERNAME
-      - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
-    env_file: ./.env
-    ports:
-      - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
-    restart: unless-stopped
-    volumes:
-      - db:/data/db
   spring:
-    depends_on:
-      - mongodb
     # build: ../ash-spring
     image: edelacr1/ash-spring:latest
     container_name: ac-spring
+    environment:
+      - TZ=America/New_York
     env_file: ./.env
     ports:
       - $SPRING_MAIL_LOCAL_PORT:$SPRING_MAIL_DOCKER_PORT
@@ -31,6 +19,8 @@ services:
     # build: ../ash-ng
     image: edelacr1/ash-ng:latest
     container_name: ac-ng
+    environment:
+      - TZ=America/New_York
     ports:
       - $NG_LOCAL_PORT:$NG_DOCKER_PORT
       - $SSL_LOCAL_PORT:$SSL_DOCKER_PORT
@@ -38,8 +28,5 @@ services:
       - spring
     restart: on-failure
     volumes:    
-      - /nfs/ashpi/nginx/www/:/var/www/
-      - /etc/letsencrypt:/etc/letsencrypt
-
-volumes:
-  db:
+      - $NGINX_LOCAL_DIR:$NGINX_DOCKER_DIR
+      - $SSL_LOCAL_DIR:$SSL_DOCKER_DIR
